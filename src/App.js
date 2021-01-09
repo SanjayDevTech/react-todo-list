@@ -17,13 +17,25 @@ function App() {
     curTodos.push({id: count, title: curText});
     setTodos(curTodos);
     setCount(count+1);
+    setText("");
   }
 
-  function deleteTodo(id) {
+  function deleteTodo(index) {
     const curTodos = [...todos];
-    curTodos.splice(id, 1);
+    curTodos.splice(index, 1);
     setTodos(curTodos);
   }
+
+  function updateTodo(index) {
+    if (text.trim() === "" || index < 0) {
+      return;
+    }
+    const curTodos = [...todos];
+    curTodos[index].title = text;
+    setTodos(curTodos);
+    setText("");
+  }
+
   return (
     <div className="App">
       <header className="App-header">Todolist</header>
@@ -38,6 +50,7 @@ function App() {
         <div className="App-item-content">
         #{todo.id} {todo.title}
         </div>
+        <button onClick={() => updateTodo(index)} className="App-btn-update">Update #{todo.id}</button>
         <button onClick={() => deleteTodo(index)} className="App-btn-delete">Delete #{todo.id}</button>
         </li>
       ))}
