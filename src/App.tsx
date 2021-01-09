@@ -1,12 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
-import {useState} from 'react';
+import { useState } from 'react';
+import styled from "styled-components";
 
-function App() {
+interface Props {
+  color?: string;
+  bg?: string;
+}
+
+const Button = styled.button<Props>`
+  color: ${props => props.color || "white"};
+  background-color: ${props => props.bg || "green"};
+  border: none;
+  font-size: 20px;
+`;
+
+const App: React.FC = () => {
   const [text, setText] = useState("");
   const [count, setCount] = useState(1);
   const [todos, setTodos] = useState([{id: 0, title: "Sanjay"}]);
-  function addTodo() {
+  let addTodo = () => {
     const curText = text;
     if (curText.trim() === "") {
       // console.log("Empty field");
@@ -20,13 +33,13 @@ function App() {
     setText("");
   }
 
-  function deleteTodo(index) {
+  let deleteTodo = (index: number) => {
     const curTodos = [...todos];
     curTodos.splice(index, 1);
     setTodos(curTodos);
   }
 
-  function updateTodo(index) {
+  let updateTodo = (index: number) => {
     if (text.trim() === "" || index < 0) {
       return;
     }
@@ -42,7 +55,7 @@ function App() {
       <main className="App-body">
       <div>
       <input className="App-input" placeholder="Type something..." onChange={(e) => setText(e.target.value)} value={text}/>
-      <button className="App-btn-add" onClick={addTodo}>Add #{count}</button>
+      <Button bg="green" onClick={addTodo}>Add #{count}</Button>
       </div>
       <ul className="App-list-container">
       {todos.map((todo, index) => (
@@ -50,8 +63,8 @@ function App() {
         <div className="App-item-content">
         #{todo.id} {todo.title}
         </div>
-        <button onClick={() => updateTodo(index)} className="App-btn-update">Update #{todo.id}</button>
-        <button onClick={() => deleteTodo(index)} className="App-btn-delete">Delete #{todo.id}</button>
+        <Button bg="orange" onClick={() => updateTodo(index)}>Update #{todo.id}</Button>
+        <Button bg="red" onClick={() => deleteTodo(index)}>Delete #{todo.id}</Button>
         </li>
       ))}
       </ul>
