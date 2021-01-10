@@ -1,20 +1,10 @@
 import './App.css';
 import { useState } from 'react';
-import styled from "styled-components";
+import StyledButton from './components/StyledButton';
+import Todo from './components/Todo';
+import StyledInput from './components/StyledInput';
 
-interface Props {
-  color?: string;
-  bg?: string;
-}
-
-const Button = styled.button<Props>`
-  color: ${props => props.color || "white"};
-  background-color: ${props => props.bg || "green"};
-  border: none;
-  font-size: 20px;
-`;
-
-const App: React.FC = () => {
+const App = () => {
   const [text, setText] = useState("");
   const [count, setCount] = useState(1);
   const [todos, setTodos] = useState([{id: 0, title: "Sanjay"}]);
@@ -53,18 +43,12 @@ const App: React.FC = () => {
       <header className="App-header">Todolist</header>
       <main className="App-body">
       <div>
-      <input className="App-input" placeholder="Type something..." onChange={(e) => setText(e.target.value)} value={text}/>
-      <Button bg="green" onClick={addTodo}>Add #{count}</Button>
+      <StyledInput placeholder="Type something..." onChange={(e) => setText(e.target.value)} value={text}/>
+      <StyledButton bg="green" onClick={addTodo}>Add #{count}</StyledButton>
       </div>
       <ul className="App-list-container">
       {todos.map((todo, index) => (
-        <li key={todo.id} className="App-item">
-        <div className="App-item-content">
-        #{todo.id} {todo.title}
-        </div>
-        <Button bg="orange" onClick={() => updateTodo(index)}>Update #{todo.id}</Button>
-        <Button bg="red" onClick={() => deleteTodo(index)}>Delete #{todo.id}</Button>
-        </li>
+        <Todo key={todo.id} updateTodo={updateTodo} deleteTodo={deleteTodo} todo={todo} index={index}/>
       ))}
       </ul>
       </main>
