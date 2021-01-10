@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches: [ master ]
-    
+
   workflow_dispatch:
 
 jobs:
@@ -11,5 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
       - name: Deploy React App
         run: npm run deploy
